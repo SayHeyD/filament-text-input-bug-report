@@ -17,3 +17,17 @@ it('may sign in the user', function () {
         ->press('button[type="submit"]')
         ->assertSee('Dashboard');
 });
+
+it('will sign in the user', function () {
+    User::factory()->create([
+        'email' => 'test@example.com',
+        'password' => 'password',
+    ]);
+
+    visit('/admin/login')
+        ->assertNotPresent('[x-ref="hidePasswordAction"][x-cloak]')
+        ->fill('[id="form.email"]', 'test@example.com')
+        ->fill('[id="form.password"]', 'password')
+        ->press('button[type="submit"]')
+        ->assertSee('Dashboard');
+});
